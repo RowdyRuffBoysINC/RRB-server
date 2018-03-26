@@ -4,10 +4,10 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "mocha --colors --exit  test/setup.test.js */*.test.js",
-    "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary mocha test/setup.test.js */*.test.js",
+    "test": "mocha --exit",
+    "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary mocha  */*.test.js",
     "heroku": "node server.js",
-    "travis": "mocha test/setup.test.js */*.test.js"
+    "travis": "mocha  */*.test.js"
   },
   "license": "MIT",
   "dependencies": {
