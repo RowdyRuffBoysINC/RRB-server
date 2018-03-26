@@ -1,9 +1,9 @@
 {
-  "name": "graphql-server",
+  "name": "rrb-server",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server.js --exec babel-node",
+    "start": "nodemon server.js --exec babel-node",
     "test": "mocha --colors --exit  test/setup.test.js */*.test.js",
     "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary mocha test/setup.test.js */*.test.js",
     "heroku": "node server.js",
