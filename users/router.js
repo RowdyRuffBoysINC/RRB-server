@@ -1,11 +1,16 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import mongoose from 'mongoose';
 import { User, } from './models';
+import passport from 'passport';
+import { jwtStrategy, } from './../auth/strategies';
+mongoose.Promise = global.Promise;
 
 export const router = express.Router();
-
+passport.use(jwtStrategy);
 const jsonParser = bodyParser.json();
+const jwtAuth = passport.authenticate('jwt', { session: false, });
+
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {

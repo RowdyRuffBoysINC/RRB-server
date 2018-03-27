@@ -1,4 +1,3 @@
-require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -7,12 +6,10 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { PORT, CLIENT_ORIGIN, } from './config';
 import { dbConnect, } from './db-mongoose';
-import { usersRouter, } from './users';
-import { authRouter, localStrategy, jwtStrategy, } from './auth';
-
+import { router as usersRouter, } from './users';
+import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 mongoose.Promise = global.Promise;
 export const app = express();
-
 
 // Logging
 app.use(morgan('common'));
@@ -31,6 +28,7 @@ passport.use(jwtStrategy);
 
 app.use('/users/', usersRouter);
 app.use('/auth/', authRouter);
+
 
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
