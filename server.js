@@ -46,7 +46,7 @@ app.use('*', (req, res) => {
 // Referenced by both runServer and closeServer. closeServer
 // Assumes runServer has run and set `server` to a server object
 
-const runServer = (port = PORT) => {
+export const runServer = (port = PORT) => {
   const server = app
     .listen(port, () => {
       console.info(`App listening on port ${server.address().port}`);
@@ -61,5 +61,3 @@ if (require.main === module) {
   dbConnect();
   runServer();
 }
-
-module.exports = { app, };

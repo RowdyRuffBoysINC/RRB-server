@@ -1,12 +1,11 @@
-'use strict';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import jwt from 'jsonwebtoken';
+import { dbConnect, dbDisconnect, } from '../db-mongoose';
+import { app, } from '../server';
+import { User, } from '../users';
+import { JWT_SECRET, TEST_DATABASE_URL, } from '../config';
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const jwt = require('jsonwebtoken');
-
-const { app, runServer, closeServer, } = require('../server');
-const { User, } = require('../users');
-const { JWT_SECRET, TEST_DATABASE_URL, } = require('../config');
 
 const expect = chai.expect;
 
@@ -22,11 +21,11 @@ describe('Protected endpoint', () => {
   const lastName = 'User';
 
   before(() => {
-    return runServer(TEST_DATABASE_URL);
+    return dbConnect(TEST_DATABASE_URL);
   });
 
   after(() => {
-    return closeServer();
+    return dbDisconnect();
   });
 
   beforeEach(() => {

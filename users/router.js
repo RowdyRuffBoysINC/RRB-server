@@ -1,4 +1,3 @@
-'use strict';
 import express from 'express';
 import bodyParser from 'body-parser';
 
@@ -10,7 +9,7 @@ const jsonParser = bodyParser.json();
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
-  const requiredFields = [ 'username', 'password', ];
+  const requiredFields = ['username', 'password',];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -22,7 +21,7 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  const stringFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const stringFields = ['username', 'password', 'firstName', 'lastName',];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -43,7 +42,7 @@ router.post('/', jsonParser, (req, res) => {
   // Trimming them and expecting the user to understand.
   // We'll silently trim the other fields, because they aren't credentials used
   // To log in, so it's less of a problem.
-  const explicityTrimmedFields = [ 'username', 'password', ];
+  const explicityTrimmedFields = ['username', 'password',];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
