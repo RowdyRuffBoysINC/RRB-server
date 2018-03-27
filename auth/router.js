@@ -1,13 +1,13 @@
-'use strict';
-const express = require('express');
-const passport = require('passport');
-const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import config from '../config';
 
-const config = require('../config');
 const router = express.Router();
 
-const createAuthToken = function (user) {
+
+const createAuthToken = (user) => {
   return jwt.sign({ user, }, config.JWT_SECRET, {
     subject: user.username,
     expiresIn: config.JWT_EXPIRY,

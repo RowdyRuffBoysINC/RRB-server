@@ -1,11 +1,11 @@
-'use strict';
 require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
-import mongoose from 'mongoose';
-import { PORT, CLIENT_ORIGIN, DATABASE_URL, } from './config';
+import { PORT, CLIENT_ORIGIN, } from './config';
 import { dbConnect, } from './db-mongoose';
 import { usersRouter, } from './users';
 import { authRouter, localStrategy, jwtStrategy, } from './auth';
@@ -20,6 +20,10 @@ app.use(morgan('common'));
 // CORS
 app.use(
   cors({ origin: CLIENT_ORIGIN, })
+);
+
+app.use(
+  bodyParser.json()
 );
 
 passport.use(localStrategy);
@@ -41,42 +45,21 @@ app.use('*', (req, res) => {
 
 // Referenced by both runServer and closeServer. closeServer
 // Assumes runServer has run and set `server` to a server object
-let server;
 
-function runServer(databaseUrl, port = PORT) {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      server = app.listen(port, () => {
-        console.log(`Your app is listening on port ${port}`);
-        resolve();
-      })
-        .on('error', (err) => {
-          mongoose.disconnect();
-          reject(err);
-        });
+const runServer = (port = PORT) => {
+  const server = app
+    .listen(port, () => {
+      console.info(`App listening on port ${server.address().port}`);
+    })
+    .on('error', (err) => {
+      console.error('Express failed to start');
+      console.error(err);
     });
-  });
-}
-
-function closeServer() {
-  return mongoose.disconnect().then(() => {
-    return new Promise((resolve, reject) => {
-      console.log('Closing server');
-      server.close((err) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-  });
-}
+};
 
 if (require.main === module) {
-  runServer(DATABASE_URL).catch(err => console.error(err));
+  dbConnect();
+  runServer();
 }
 
-module.exports = { app, runServer, closeServer, };
+module.exports = { app, };
