@@ -1,10 +1,10 @@
 'use strict';
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const { User, } = require('./models');
+import { User, } from './models';
 
-const router = express.Router();
+export const router = express.Router();
 
 const jsonParser = bodyParser.json();
 
@@ -141,5 +141,3 @@ router.get('/', (req, res) => {
     .then(users => res.json(users.map(user => user.serialize())))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));
 });
-
-module.exports = { router, };

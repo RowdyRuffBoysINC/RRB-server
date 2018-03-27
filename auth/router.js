@@ -4,7 +4,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 
-const router = express.Router();
+export const router = express.Router();
 
 
 const createAuthToken = (user) => {
@@ -30,5 +30,3 @@ router.post('/refresh', jwtAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   res.json({ authToken, });
 });
-
-module.exports = { router, };
