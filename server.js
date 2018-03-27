@@ -10,6 +10,7 @@ import { router as usersRouter, } from './users';
 import { PORT, CLIENT_ORIGIN, } from './config';
 import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
+import SIO from './lib/sio';
 
 export const app = express();
 mongoose.Promise = global.Promise;
@@ -28,6 +29,7 @@ app.use(
   bodyParser.json()
 );
 
+
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
@@ -44,6 +46,8 @@ export const runServer = (port = PORT) => {
       console.error('Express failed to start');
       console.error(err);
     });
+  const sio = new SIO(server);
+  sio.connect();
 };
 
 if (require.main === module) {
