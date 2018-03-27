@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { dbConnect, dbDisconnect, } from '../db-mongoose';
-import { app, } from '../server';
+import app from '../server';
 import { User, } from '../users';
 import { TEST_DATABASE_URL, } from '../config';
 

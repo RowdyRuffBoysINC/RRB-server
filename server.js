@@ -11,7 +11,7 @@ import { usersRouter, } from './users';
 import { authRouter, localStrategy, jwtStrategy, } from './auth';
 
 mongoose.Promise = global.Promise;
-export const app = express();
+const app = express();
 
 
 // Logging
