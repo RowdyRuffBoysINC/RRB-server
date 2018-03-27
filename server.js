@@ -4,12 +4,17 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
-import { PORT, CLIENT_ORIGIN, } from './config';
+
 import { dbConnect, } from './db-mongoose';
 import { router as usersRouter, } from './users';
+import { PORT, CLIENT_ORIGIN, } from './config';
 import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
-mongoose.Promise = global.Promise;
+
+
 export const app = express();
+mongoose.Promise = global.Promise;
+
+
 
 // Logging
 app.use(morgan('common'));
@@ -29,13 +34,6 @@ passport.use(jwtStrategy);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-
-// Const jwtAuth = passport.authenticate('jwt', { session: false, });
-
-// A protected endpoint which needs a valid JWT to access it
-
-// Referenced by both runServer and closeServer. closeServer
-// Assumes runServer has run and set `server` to a server object
 
 export const runServer = (port = PORT) => {
   const server = app

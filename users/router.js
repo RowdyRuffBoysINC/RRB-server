@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import asyncHandler from 'express-async-handler';
+
 import { User, } from './models';
 import { jwtStrategy, } from './../auth/strategies';
 
@@ -9,24 +11,20 @@ export const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-passport.use(jwtStrategy);
 router.use(bodyParser.json());
+passport.use(jwtStrategy);
+
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
-
-router.get('/', (req, res) => {
-  User
-    .find()
-    .then(users => res.status(201).json(users))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ message: 'Internal Server Error', });
-    });
-});
+router.get('/', asyncHandler(async (req, res, next) => {
+  const users = await User.find();
+  res.send(users)
+}));
 
 // Post to register a new user
-router.post('/', (req, res) => {
-  const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
+router.post('/', asyncHandler(async (req, res, next) => {
+  let { username, password, firstName = '', lastName = '', questions } = req.body; // eslint-disable-line (Prefer const over let but since some vars get reassigned value, use let for all)
+  const requiredFields = ['username', 'password', 'firstName', 'lastName',];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -38,7 +36,7 @@ router.post('/', (req, res) => {
     });
   }
 
-  const stringFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const stringFields = ['username', 'password', 'firstName', 'lastName',];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -51,96 +49,48 @@ router.post('/', (req, res) => {
       location: nonStringField,
     });
   }
+  const usernameIsNotTrimmed = username !== username.trim();
+  const passwordIsNotTrimmed = password !== password.trim();
 
-  /*
-  If the username and password aren't trimmed we give an error.
-  We'll silently trim the other fields, because they aren't credentials
-  used to log in, so it's less of a problem.
-  */
-  const explicityTrimmedFields = [ 'username', 'password', ];
-  const nonTrimmedField = explicityTrimmedFields.find(
-    field => req.body[field].trim() !== req.body[field]
-  );
-
-  if (nonTrimmedField) {
+  // Silently trimming fields could result in user confusion when attempting to log in.
+  if (usernameIsNotTrimmed || passwordIsNotTrimmed) {
     return res.status(422).json({
-      code: 422,
       reason: 'ValidationError',
       message: 'Cannot start or end with whitespace',
-      location: nonTrimmedField,
     });
   }
+  // Bcrypt truncates after 72 character
+  let wrongPasswordSize = password.length <= 8 && password.length >= 72;
+  let wrongUsernameSize = username.length <= 1 && username.length >= 15;
 
-  const sizedFields = {
-    username: {
-      min: 1,
-      max: 15,
-    },
-    password: {
-      min: 8,
-      // Bcrypt truncates after 72 characters
-      max: 72,
-    },
-  };
-  const tooSmallField = Object.keys(sizedFields).find(
-    field =>
-      'min' in sizedFields[field] &&
-      req.body[field].trim().length < sizedFields[field].min
-  );
-  const tooLargeField = Object.keys(sizedFields).find(
-    field =>
-      'max' in sizedFields[field] &&
-      req.body[field].trim().length > sizedFields[field].max
-  );
 
-  if (tooSmallField || tooLargeField) {
+  if (wrongUsernameSize || wrongPasswordSize) {
     return res.status(422).json({
-      code: 422,
       reason: 'ValidationError',
-      message: tooSmallField
-        ? `Must be at least ${sizedFields[tooSmallField]
-          .min} characters long`
-        : `Must be at most ${sizedFields[tooLargeField]
-          .max} characters long`,
-      location: tooSmallField || tooLargeField,
+      message: 'Password must be between 8-72 characters. Username must be between 1-15 characters',
     });
   }
 
-  let { username, password, firstName = '', lastName = '', questions } = req.body; // eslint-disable-line
   // Username and password come in pre-trimmed, otherwise we throw an error
   firstName = firstName.trim();
   lastName = lastName.trim();
 
-  return User.find({ username, })
-    .count()
-    .then((count) => {
-      if (count > 0) {
-        // There is an existing user with the same username
-        return Promise.reject({
-          code: 422,
-          reason: 'ValidationError',
-          message: 'Username already taken',
-          location: 'username',
-        });
-      }
-      // If there is no existing user, hash the password
-      return User.hashPassword(password);
-    })
-    .then((digest) => {
-      return User.create({
-        username,
-        password: digest,
-        firstName,
-        lastName,
-      });
-    })
-    .then((user) => {
-      return res.status(201).location(`/users/${user.id}`).json(user.serialize());
-    })
-    .catch((err) => {
-      if (err.reason === 'ValidationError') {
-        return res.status(err.code).json(err);
-      }
-      res.status(500).json({ code: 500, message: 'Internal server error', });
+  const doesUserExist = await User
+    .find({ username, })
+    .count();
+  if (doesUserExist > 0) {
+    throw new Error({
+      reason: 'ValidationError',
+      message: 'Username already exists',
     });
-});
+  }
+
+  const hashedPassword = await User.hashPassword(password);
+  const newUser = await User.create({
+    username,
+    password: hashedPassword,
+    firstName,
+    lastName,
+  });
+  res.status(201).location(`/users/${newUser.id}`).json(newUser.serialize());
+}));

@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+
 import { JWT_SECRET, JWT_EXPIRY, } from '../config';
 
 export const router = express.Router();
-
 
 const createAuthToken = (user) => {
   return jwt.sign({ user, }, JWT_SECRET, {
@@ -20,7 +20,6 @@ router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  if (!res.ok) Promise.reject();
   res.json({ authToken, });
 });
 
