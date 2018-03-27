@@ -16,14 +16,10 @@ passport.use(jwtStrategy);
 
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
-
-
 router.get('/', asyncHandler(async (req, res, next) => {
   const users = await User.find();
   res.send(users)
 }));
-
-
 
 // Post to register a new user
 router.post('/', asyncHandler(async (req, res, next) => {

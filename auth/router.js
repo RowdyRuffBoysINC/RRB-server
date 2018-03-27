@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+
 import { JWT_SECRET, JWT_EXPIRY, } from '../config';
 
 export const router = express.Router();
-
 
 const createAuthToken = (user) => {
   return jwt.sign({ user, }, JWT_SECRET, {

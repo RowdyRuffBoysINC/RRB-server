@@ -3,7 +3,6 @@ import chaiHttp from 'chai-http';
 
 import { TEST_DATABASE_URL, } from '../config';
 import { dbConnect, dbDisconnect, } from '../db-mongoose';
-// Const {dbConnect, dbDisconnect} = require('../db-knex');
 
 // Set NODE_ENV to `test` to disable http layer logs
 // You can do this in the command line, but this is cross-platform

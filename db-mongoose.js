@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
-mongoose.Promise = global.Promise;
 
 import { DATABASE_URL, } from './config';
+
+mongoose.Promise = global.Promise;
 
 export const dbConnect = (url = DATABASE_URL) => {
   return mongoose.connect(url)
