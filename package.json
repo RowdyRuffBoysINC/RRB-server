@@ -6,7 +6,7 @@
     "start": "nodemon server.js --exec babel-node",
     "test": "mocha --exit --compilers js:babel-core/register ./test/*.js",
     "cover": "node --exec nyc --reporter=lcov --reporter=text-summary mocha  */*.test.js",
-    "heroku": "nodemon server.js",
+    "heroku": "nodemon server.js --exec babel-node",
     "travis": "mocha  */*.test.js"
   },
   "license": "MIT",
