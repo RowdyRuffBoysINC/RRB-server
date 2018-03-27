@@ -14,19 +14,19 @@ router.use(bodyParser.json());
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 
-router.get('/', (req, res) => {
-  User
-    .find()
-    .then(users => res.status(201).json(users))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ message: 'Internal Server Error', });
-    });
+router.get('/', async (req, res) => {
+  try {
+    return await User
+      .find()
+  }
+  catch (err) {
+    console.error(err);
+  }
 });
 
 // Post to register a new user
 router.post('/', (req, res) => {
-  const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const requiredFields = ['username', 'password', 'firstName', 'lastName',];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
     });
   }
 
-  const stringFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const stringFields = ['username', 'password', 'firstName', 'lastName',];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
   We'll silently trim the other fields, because they aren't credentials
   used to log in, so it's less of a problem.
   */
-  const explicityTrimmedFields = [ 'username', 'password', ];
+  const explicityTrimmedFields = ['username', 'password',];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
