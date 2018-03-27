@@ -4,11 +4,10 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "mocha --exit ./test/*.js",
+    "test": "mocha --compilers js:babel-core/register ./test/*.js",
     "cover": "nodemon --exec nyc --reporter=lcov --reporter=text-summary mocha  */*.test.js",
     "heroku": "nodemon server.js --exec babel-node",
-    "travis": "mocha  */*.test.js",
-    "mocha": "mocha --compilers js:babel-core/register"
+    "travis": "mocha  */*.test.js"
   },
   "license": "MIT",
   "dependencies": {
