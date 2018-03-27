@@ -11,6 +11,7 @@ import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 mongoose.Promise = global.Promise;
 export const app = express();
 
+
 // Logging
 app.use(morgan('common'));
 
@@ -28,6 +29,7 @@ passport.use(jwtStrategy);
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+
 
 
 // Const jwtAuth = passport.authenticate('jwt', { session: false, });

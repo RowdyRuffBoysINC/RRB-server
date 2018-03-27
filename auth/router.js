@@ -20,7 +20,6 @@ router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  if (!res.ok) Promise.reject();
   res.json({ authToken, });
 });
 
