@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "mocha --compilers js:babel-core/register ./test/*.js",
+    "test": "mocha --exit --compilers js:babel-core/register ./test/*.js",
     "cover": "node --exec nyc --reporter=lcov --reporter=text-summary mocha  */*.test.js",
     "heroku": "node server.js --exec babel-node",
     "travis": "mocha  */*.test.js"
