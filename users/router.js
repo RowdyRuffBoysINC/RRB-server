@@ -14,6 +14,16 @@ router.use(bodyParser.json());
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 
+router.get('/', (req, res) => {
+  User
+    .find()
+    .then(users => res.status(201).json(users))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal Server Error', });
+    });
+});
+
 // Post to register a new user
 router.post('/', (req, res) => {
   const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
