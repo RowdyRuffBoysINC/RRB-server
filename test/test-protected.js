@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import { dbConnect, dbDisconnect, } from '../db-mongoose';
-import app from '../server';
+import { app, runServer, } from '../server';
 import { User, } from '../users';
 import { JWT_SECRET, TEST_DATABASE_URL, } from '../config';
 
@@ -21,6 +21,7 @@ describe('Protected endpoint', () => {
   const lastName = 'User';
 
   before(() => {
+    runServer();
     return dbConnect(TEST_DATABASE_URL);
   });
 
