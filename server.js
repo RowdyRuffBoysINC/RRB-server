@@ -35,17 +35,13 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
 io.on('connection', (socket) => {
-  console.log('connected!!  ', 'socket id: ', socket.id);
   socket.on('join room', (data) => {
-    console.log(`${data.user} joining room ${data.room}`);
     socket.join(data.room);
   });
   socket.on('leave room', (data) => {
-    console.log(`${data.user} leaving room ${data.room}`);
     socket.leave(data.room);
   });
   socket.on('code msg', (data) => {
-    console.log('code msg received from client');
     socket.to(data.room).emit('code msg sent back to clients', data.msg);
   });
 });
