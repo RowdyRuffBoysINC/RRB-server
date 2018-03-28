@@ -13,9 +13,10 @@ import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
 
 export const app = express();
-const io = socketio(app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
-}));
+});
+const io = socketio(server);
 mongoose.Promise = global.Promise;
 
 // Logging
