@@ -13,10 +13,7 @@ import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
 
 export const app = express();
-const server = app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
-});
-const io = socketio(server);
+const io = socketio();
 mongoose.Promise = global.Promise;
 
 // Logging
@@ -37,11 +34,6 @@ passport.use(jwtStrategy);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-
-app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/index.html`);
-});
-
 io.on('connection', (socket) => {
   console.log('connected!!  ', 'socket id: ', socket.id);
   socket.on('join room', (data) => {
@@ -52,29 +44,26 @@ io.on('connection', (socket) => {
     console.log(`${data.user} leaving room ${data.room}`);
     socket.leave(data.room);
   });
-  socket.on('chat message', (data) => {
-    console.log('sending msg');
-    //Sending to everyone in room except me
-    // socket.to(data.room).emit('chat message', data.msg);
-    //Sending to everyone in room including me
-    io.in(data.room).emit('chat message', data.msg);
+  socket.on('code msg', (data) => {
+    console.log('code msg received from client');
+    socket.to(data.room).emit('code msg sent back to clients', data.msg);
   });
 });
 
 
-
-// export const runServer = (port = PORT) => {
-//   const server = app
-//     .listen(port, () => {
-//       console.info(`App listening on port ${server.address().port}`);
-//     })
-//     .on('error', (err) => {
-//       console.error('Express failed to start');
-//       console.error(err);
-//     });
-// };
+export const runServer = (port = PORT) => {
+  const server = app
+    .listen(port, () => {
+      console.info(`App listening on port ${server.address().port}`);
+    })
+    .on('error', (err) => {
+      console.error('Express failed to start');
+      console.error(err);
+    });
+  io.attach(server);
+};
 
 if (require.main === module) {
   dbConnect();
-  // runServer();
+  runServer();
 }
