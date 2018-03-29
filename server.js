@@ -48,6 +48,10 @@ io.on('connection', (socket) => {
   socket.on('word msg', (data) => {
     socket.to(data.room).emit('word msg sent back to clients', data.msg);
   });
+
+  socket.on('whiteBoard msg', (data) => {
+    socket.to(data.room).emit('whiteBoard msg sent back to clients', data.msg);
+  });
 });
 
 
