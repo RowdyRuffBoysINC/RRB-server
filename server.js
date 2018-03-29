@@ -44,6 +44,10 @@ io.on('connection', (socket) => {
   socket.on('code msg', (data) => {
     socket.to(data.room).emit('code msg sent back to clients', data.msg);
   });
+
+  socket.on('word msg', (data) => {
+    socket.to(data.room).emit('word msg sent back to clients', data.msg);
+  });
 });
 
 
