@@ -4,6 +4,7 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
+import socketio from 'socket.io';
 
 import { dbConnect, } from './db-mongoose';
 import { router as usersRouter, } from './users';
@@ -13,9 +14,8 @@ import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 import SIO from './lib/sio';
 
 export const app = express();
+const io = socketio();
 mongoose.Promise = global.Promise;
-
-
 
 // Logging
 app.use(morgan('common'));
@@ -36,6 +36,22 @@ passport.use(jwtStrategy);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
+io.on('connection', (socket) => {
+  socket.on('join room', (data) => {
+    socket.join(data.room);
+  });
+  socket.on('leave room', (data) => {
+    socket.leave(data.room);
+  });
+  socket.on('code msg', (data) => {
+    socket.to(data.room).emit('code msg sent back to clients', data.msg);
+  });
+
+  socket.on('word msg', (data) => {
+    socket.to(data.room).emit('word msg sent back to clients', data.msg);
+  });
+});
+
 
 export const runServer = (port = PORT) => {
   const server = app
@@ -48,6 +64,7 @@ export const runServer = (port = PORT) => {
     });
   const sio = new SIO(server);
   sio.connect();
+  io.attach(server);
 };
 
 if (require.main === module) {
