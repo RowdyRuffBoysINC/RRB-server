@@ -11,9 +11,9 @@ import { router as usersRouter, } from './users';
 import { PORT, CLIENT_ORIGIN, } from './config';
 import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
-
+export const hi = 'hello';
 export const app = express();
-const io = socketio();
+export const io = socketio();
 mongoose.Promise = global.Promise;
 
 // Logging
@@ -33,6 +33,10 @@ passport.use(jwtStrategy);
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+
+app.get('/', (req, res) => {
+  res.status(123);
+});
 
 io.on('connection', (socket) => {
   socket.on('join room', (data) => {
