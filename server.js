@@ -36,23 +36,6 @@ passport.use(jwtStrategy);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-// Io.on('connection', (socket) => {
-//   Socket.on('join room', (data) => {
-//     Socket.join(data.room);
-//   });
-//   Socket.on('leave room', (data) => {
-//     Socket.leave(data.room);
-//   });
-//   Socket.on('code msg', (data) => {
-//     Socket.to(data.room).emit('code msg sent back to clients', data.msg);
-//   });
-
-//   Socket.on('word msg', (data) => {
-//     Socket.to(data.room).emit('word msg sent back to clients', data.msg);
-//   });
-// });
-
-
 export const runServer = (port = PORT) => {
   const server = app
     .listen(port, () => {
@@ -64,7 +47,6 @@ export const runServer = (port = PORT) => {
     });
   const sio = new SIO(server);
   sio.connect();
-  // Io.attach(server);
 };
 
 if (require.main === module) {
