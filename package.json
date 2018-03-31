@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "mocha --exit --compilers js:babel-core/register ./test/*.js",
+    "test": "mocha --exit --require babel-polyfill --require babel-register ./test/*.js",
     "cover": "node --exec nyc --reporter=lcov --reporter=text-summary mocha  */*.test.js",
     "heroku": "nodemon server.js --exec babel-node",
     "travis": "mocha  */*.test.js"
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
