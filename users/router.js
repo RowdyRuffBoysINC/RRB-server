@@ -60,8 +60,8 @@ router.post('/', asyncHandler(async (req, res, next) => {
     });
   }
   // Bcrypt truncates after 72 character
-  let wrongPasswordSize = password.length <= 8 && password.length >= 72;
-  let wrongUsernameSize = username.length <= 1 && username.length >= 15;
+  let wrongPasswordSize = password.length <= 8 || password.length >= 72;
+  let wrongUsernameSize = username.length <= 1 || username.length >= 15;
 
 
   if (wrongUsernameSize || wrongPasswordSize) {
