@@ -11,7 +11,6 @@ import { router as usersRouter, } from './users';
 import { PORT, CLIENT_ORIGIN, } from './config';
 import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
-export const hi = 'hello';
 export const app = express();
 export const io = socketio();
 mongoose.Promise = global.Promise;
