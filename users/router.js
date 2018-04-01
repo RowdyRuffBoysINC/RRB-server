@@ -75,11 +75,11 @@ router.post('/', asyncHandler(async (req, res, next) => {
   firstName = firstName.trim();
   lastName = lastName.trim();
 
-  const doesUserExist = await User
+  const usersFound = await User
     .find({ username, })
     .count();
-  if (doesUserExist > 0) {
-    throw new Error({
+  if (usersFound > 0) {
+    return Promise.reject({
       reason: 'ValidationError',
       message: 'Username already exists',
     });
