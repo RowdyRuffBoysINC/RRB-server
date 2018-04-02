@@ -2,6 +2,7 @@ language: node_js
 node_js: node
 services:
 - mongodb
+after_success: npm run coverage
 deploy:
   provider: heroku
   api_key:
