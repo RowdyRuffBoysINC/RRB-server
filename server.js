@@ -4,7 +4,6 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
-import socketio from 'socket.io';
 
 import { dbConnect, } from './db-mongoose';
 import { router as usersRouter, } from './users';
@@ -14,7 +13,6 @@ import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 import SIO from './lib/sio';
 
 export const app = express();
-const io = socketio();
 mongoose.Promise = global.Promise;
 
 // Logging
