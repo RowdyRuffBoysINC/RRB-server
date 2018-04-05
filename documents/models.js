@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 
 const DocumentSchema = mongoose.Schema({
+  roomName: { type: String, required: true, unique: true, },
   codeEditorText: { type: String, default: '',},
   wordEditorText: { type: Object, default: {}, },
   whiteBoardEditorValue: { type: Object, default: {},},
