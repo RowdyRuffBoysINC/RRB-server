@@ -11,6 +11,7 @@ const DocumentSchema = mongoose.Schema({
 
 DocumentSchema.methods.serialize = function () {
   return {
+    roomName: this.roomName,
     codeEditorText: this.codeEditorText || '',
     wordEditorText: this.wordEditorText || '',
     whiteBoardEditorValue: this.whiteBoardEditorValue || '',
