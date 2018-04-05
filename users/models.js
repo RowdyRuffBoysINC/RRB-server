@@ -15,6 +15,7 @@ const UserSchema = mongoose.Schema({
   },
   firstName: { type: String, default: '', },
   lastName: { type: String, default: '', },
+  sessions: { type: Array, default: [], },
 });
 
 UserSchema.methods.serialize = function () {
