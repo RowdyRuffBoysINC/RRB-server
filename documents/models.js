@@ -4,15 +4,15 @@ mongoose.Promise = global.Promise;
 
 const DocumentSchema = mongoose.Schema({
   code: { type: String, default: '',},
-  word: { type: String, default: '', },
-  whiteboard: { type: String, default: '',},
+  word: { type: Object, default: {}, },
+  whiteBoard: { type: Object, default: {},},
 });
 
 DocumentSchema.methods.serialize = function () {
   return {
     code: this.code || '',
     word: this.word || '',
-    whiteboard: this.whiteboard || '',
+    whiteBoard: this.whiteBoard || '',
   };
 };
 
