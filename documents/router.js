@@ -13,10 +13,20 @@ router.use(bodyParser.json());
 
 router.get('/', asyncHandler(async (req, res, next) => {
   const documents = await Document.find();
-  res.send(documents)
+  res.json(documents)
 }));
 
-// router.post('/', asyncHandler(async (req, res, next) => {
-//   let { code, word, whiteboard, } = req.body;
+router.get('/:roomName', asyncHandler(async (req, res, next) => {
+  const documents = await Document.find({roomName: req.params.roomName});
+  res.json(documents);
+}));
 
-// }));
+router.post('/', asyncHandler(async (req, res, next) => {
+  let { code, word, whiteboard, } = req.body;
+  Document.create({
+    roomName,
+    codeEditorText,
+    wordEditorText,
+    whiteBoardEditorValue,
+  })
+}));
