@@ -25,3 +25,12 @@ router.post('/', asyncHandler(async (req, res, next) => {
   const document = await Document.create(req.body);
   res.status(201).json(document.serialize());
 }));
+
+router.put('/:roomName', asyncHandler(async (req, res, next) => {
+  Document
+    .update({roomName: req.params.roomName}, req.body)
+    .then(() => {
+      res.send();
+    })
+    .catch(err => console.error(err))
+}))
