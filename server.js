@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -7,6 +8,7 @@ import morgan from 'morgan';
 
 import { dbConnect, } from './db-mongoose';
 import { router as usersRouter, } from './users';
+import { router as documentsRouter, } from './documents';
 import { PORT, CLIENT_ORIGIN, } from './config';
 import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
 
@@ -33,6 +35,7 @@ passport.use(jwtStrategy);
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/documents', documentsRouter);
 
 export const runServer = (port = PORT) => {
   const server = app
