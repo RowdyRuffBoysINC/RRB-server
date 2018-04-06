@@ -22,11 +22,6 @@ router.get('/:roomName', asyncHandler(async (req, res, next) => {
 }));
 
 router.post('/', asyncHandler(async (req, res, next) => {
-  let { code, word, whiteboard, } = req.body;
-  Document.create({
-    roomName,
-    codeEditorText,
-    wordEditorText,
-    whiteBoardEditorValue,
-  })
+  const document = await Document.create(req.body);
+  res.status(201).json(document.serialize());
 }));
