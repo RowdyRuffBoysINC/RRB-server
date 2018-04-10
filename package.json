@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js --exec babel-node",
+    "start": "nodemon --ignore temp server.js --exec babel-node",
     "test": "nyc mocha --exit --require babel-polyfill --require babel-register ./test/*.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "heroku": "nodemon server.js --exec babel-node",
+    "heroku": "nodemon --ignore temp server.js --exec babel-node",
     "travis": "mocha  */*.test.js"
   },
   "license": "MIT",
