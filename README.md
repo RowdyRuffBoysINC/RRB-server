@@ -13,6 +13,11 @@
 - Heroku
 
 
+## Installation
+
+1. Clone this repository
+2. Run `npm install` within both directories to install dependencies.
+
 ## Usage
 
 Start the [RRB-Server](https://github.com/RowdyRuffBoysINC/RRB-server). Once running, you can access `http://localhost:8080`
