@@ -12,15 +12,30 @@
 - Travis CI
 - Heroku
 
+## Table of Contents
+
+[Installation](#installation)
+[Usage](#usage)
+[Contributing](#contributing)
+[Credits](#credits)
+[License](#license)
+
+
+<a href="installation">
 
 ## Installation
 
 1. Clone this repository
 2. Run `npm install` within both directories to install dependencies.
 
+<a name="usage">
+
 ## Usage
 
 Start the [RRB-Server](https://github.com/RowdyRuffBoysINC/RRB-server). Once running, you can access `http://localhost:8080`
+
+
+<a name="contributing">
 
 ## Contributing
 
@@ -32,6 +47,8 @@ Start the [RRB-Server](https://github.com/RowdyRuffBoysINC/RRB-server). Once run
 
 > For additional details on RRB Inc's workflow checkout [our wiki](https://github.com/RowdyRuffBoysINC/RRB-server/wiki)
 
+<a name="credits">
+
 ## Credits
 
 - [Brent Guistwite](https://github.com/brentguistwite)
@@ -39,7 +56,9 @@ Start the [RRB-Server](https://github.com/RowdyRuffBoysINC/RRB-server). Once run
 - [Vernon Mensah](https://github.com/Alderr)
 - [David Park](https://github.com/sadmilk)
 - [Abraham Cuenca](https://github.com/yourwebdevguy)
--
+
+<a name="license">
+
 ## License
 
 This project is licensed under the terms of the **MIT** license.
