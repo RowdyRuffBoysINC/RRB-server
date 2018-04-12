@@ -12,9 +12,16 @@
 - Travis CI
 - Heroku
 
-## License
 
-This project is licensed under the terms of the **MIT** license.
+## Contributing
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -amm 'Add some feature`
+4. Push to the branch `git push origin my-new-feature`
+5. Submit a pull request
+
+> For additional details on RRB Inc's workflow checkout [our wiki](https://github.com/RowdyRuffBoysINC/RRB-server/wiki)
 
 ## Credits
 
@@ -23,3 +30,7 @@ This project is licensed under the terms of the **MIT** license.
 - [Vernon Mensah](https://github.com/Alderr)
 - [David Park](https://github.com/sadmilk)
 - [Abraham Cuenca](https://github.com/yourwebdevguy)
+-
+## License
+
+This project is licensed under the terms of the **MIT** license.
