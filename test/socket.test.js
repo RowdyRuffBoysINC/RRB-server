@@ -31,7 +31,7 @@ describe('Server', () => {
       it('Should allow users to join room', () => {
         const roomData = { room: 'rrb', user: 'Brent', };
         server.on('connection', (socket) => {
-          console.log('hello');
+
         });
         client = ioClient.connect(socketURL, options);
       });
@@ -40,14 +40,14 @@ describe('Server', () => {
 
 
   // It('Should allow users to join room', () => {
-  //   // console.log('hello');
+  //   //
   //   // server.on('connection', (socket) => {
   //     Const socket = ioClient(socketURL);
   //     Socket.emit('join room', {room: room1, hiff: user1,});
 
-  //     Console.log('hi');
+  //
   //     Socket.on('join room', (data) => {
-  //       Console.log(data);
+  //
   //       Data.should.be.type('object');
   //       Data.should.include.keys('room', 'user');
   //       Data.room.should.be.type('string');
