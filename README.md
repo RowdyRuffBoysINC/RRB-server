@@ -13,6 +13,10 @@
 - Heroku
 
 
+## Usage
+
+Start the [RRB-Server](https://github.com/RowdyRuffBoysINC/RRB-server). Once running, you can access `http://localhost:8080`
+
 ## Contributing
 
 1. Fork it!
