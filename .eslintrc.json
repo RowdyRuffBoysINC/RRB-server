@@ -114,8 +114,8 @@
       {
         "arrays": "always",
         "objects": "always",
-        "imports": "always",
-        "exports": "always",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
         "functions": "ignore"
       }
     ],

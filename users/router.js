@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import asyncHandler from 'express-async-handler';
 
-import { User, } from './models';
-import { jwtStrategy, } from './../auth/strategies';
+import { User } from './models';
+import { jwtStrategy } from './../auth/strategies';
 
 export const router = express.Router();
 
@@ -23,7 +23,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 // Post to register a new user
 router.post('/', asyncHandler(async (req, res, next) => {
-  let { username, password, firstName = '', lastName = '', questions } = req.body; // eslint-disable-line (Prefer const over let but since some vars get reassigned value, use let for all)
+  let { username, password, firstName = '', lastName = '' } = req.body; // eslint-disable-line (Prefer const over let but since some vars get reassigned value, use let for all)
   const requiredFields = ['username', 'password', 'firstName', 'lastName',];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -36,7 +36,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
     });
   }
 
-  const stringFields = ['username', 'password', 'firstName', 'lastName',];
+  const stringFields = ['username', 'password'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -60,14 +60,12 @@ router.post('/', asyncHandler(async (req, res, next) => {
     });
   }
   // Bcrypt truncates after 72 character
-  let wrongPasswordSize = password.length <= 8 || password.length >= 72;
-  let wrongUsernameSize = username.length <= 1 || username.length >= 15;
+  const wrongPasswordSize = password.length <= 1 || password.length >= 72;
 
-
-  if (wrongUsernameSize || wrongPasswordSize) {
+  if (wrongPasswordSize) {
     return res.status(422).json({
       reason: 'ValidationError',
-      message: 'Password must be between 8-72 characters. Username must be between 1-15 characters',
+      message: 'Password must be between 1-72 characters.',
     });
   }
 
@@ -76,7 +74,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
   lastName = lastName.trim();
 
   const usersFound = await User
-    .find({ username, })
+    .find({ username })
     .count();
   if (usersFound > 0) {
     return Promise.reject({

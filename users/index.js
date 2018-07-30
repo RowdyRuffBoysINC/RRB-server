@@ -1,4 +1,4 @@
-import { User, } from './models';
-import { router, } from './router';
+import { User } from './models';
+import { router } from './router';
 
-module.exports = { User, router, };
+export { User, router };

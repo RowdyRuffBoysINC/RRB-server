@@ -3,17 +3,21 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET, JWT_EXPIRY, } from '../config';
+import { JWT_SECRET, JWT_EXPIRY } from '../config';
 
 export const router = express.Router();
 
-const createAuthToken = (user) => {
-  return jwt.sign({ user, }, JWT_SECRET, {
-    subject: user.username,
-    expiresIn: JWT_EXPIRY,
-    algorithm: 'HS256',
-  });
-};
+const createAuthToken = user =>
+  jwt.sign(
+    { user, },
+    JWT_SECRET,
+    {
+      subject: user.username,
+      expiresIn: JWT_EXPIRY,
+      algorithm: 'HS256',
+    }
+  );
+
 
 const localAuth = passport.authenticate('local', { session: false, });
 router.use(bodyParser.json());
