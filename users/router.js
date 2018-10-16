@@ -23,8 +23,8 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 // Post to register a new user
 router.post('/', asyncHandler(async (req, res, next) => {
-  let { username, password, firstName = '', lastName = '' } = req.body; // eslint-disable-line (Prefer const over let but since some vars get reassigned value, use let for all)
-  const requiredFields = ['username', 'password', 'firstName', 'lastName',];
+  let { username, password } = req.body; // eslint-disable-line (Prefer const over let but since some vars get reassigned value, use let for all)
+  const requiredFields = ['username', 'password',];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -70,8 +70,6 @@ router.post('/', asyncHandler(async (req, res, next) => {
   }
 
   // Username and password come in pre-trimmed, otherwise we throw an error
-  firstName = firstName.trim();
-  lastName = lastName.trim();
 
   const usersFound = await User
     .find({ username })
@@ -87,8 +85,6 @@ router.post('/', asyncHandler(async (req, res, next) => {
   const newUser = await User.create({
     username,
     password: hashedPassword,
-    firstName,
-    lastName,
   });
   res.status(201).location(`/users/${newUser.id}`).json(newUser.serialize());
 }));

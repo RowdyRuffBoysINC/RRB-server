@@ -1,10 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
-import { dbConnect, dbDisconnect, } from '../db-mongoose';
-import { app, } from '../server';
-import { User, } from '../users';
-import { JWT_SECRET, TEST_DATABASE_URL, } from '../config';
+import { dbConnect, dbDisconnect } from '../db-mongoose';
+import { app } from '../server';
+import { User } from '../users';
+import { JWT_SECRET, TEST_DATABASE_URL } from '../config';
 
 
 const expect = chai.expect;
@@ -17,8 +17,6 @@ chai.use(chaiHttp);
 describe('Auth endpoints', () => {
   const username = 'exampleUser';
   const password = 'examplePass';
-  const firstName = 'Example';
-  const lastName = 'User';
 
   before(() => {
     return dbConnect(TEST_DATABASE_URL);
@@ -33,8 +31,6 @@ describe('Auth endpoints', () => {
       User.create({
         username,
         password,
-        firstName,
-        lastName,
       })
     );
   });
@@ -105,11 +101,7 @@ describe('Auth endpoints', () => {
           const token = res.body.authToken;
           expect(token).to.be.a('string');
           const payload = jwt.verify(token, JWT_SECRET, { algorithm: [ 'HS256', ], });
-          expect(payload.user).to.deep.equal({
-            username,
-            firstName,
-            lastName,
-          });
+          expect(payload.user).to.deep.equal({ username, });
         });
     });
   });
@@ -133,11 +125,7 @@ describe('Auth endpoints', () => {
     });
     it('Should reject requests with an invalid token', () => {
       const token = jwt.sign(
-        {
-          username,
-          firstName,
-          lastName,
-        },
+        { username, },
         'wrongSecret',
         {
           algorithm: 'HS256',
@@ -163,13 +151,7 @@ describe('Auth endpoints', () => {
     });
     it('Should return a valid auth token with a newer expiry date', () => {
       const token = jwt.sign(
-        {
-          user: {
-            username,
-            firstName,
-            lastName,
-          },
-        },
+        {user: { username, },},
         JWT_SECRET,
         {
           algorithm: 'HS256',
@@ -189,11 +171,7 @@ describe('Auth endpoints', () => {
           const token = res.body.authToken;
           expect(token).to.be.a('string');
           const payload = jwt.verify(token, JWT_SECRET, { algorithm: [ 'HS256', ], });
-          expect(payload.user).to.deep.equal({
-            username,
-            firstName,
-            lastName,
-          });
+          expect(payload.user).to.deep.equal({username,});
           expect(payload.exp).to.be.at.least(decoded.exp);
         });
     });

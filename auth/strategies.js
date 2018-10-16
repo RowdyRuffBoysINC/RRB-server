@@ -1,10 +1,9 @@
-import { LocalStrategy } from 'passport-local';
-import { JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy } from 'passport-local';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
 import { User } from '../users/models';
 import { JWT_SECRET } from '../config';
-
-export const localStrategy = new LocalStrategy((username, password, callback) => {
+export const localStrategy = new Strategy((username, password, callback) => {
   let user;
   User.findOne({ username, })
     .then((_user) => {
