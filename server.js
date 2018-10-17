@@ -6,11 +6,11 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import { dbConnect, } from './db-mongoose';
-import { router as usersRouter, } from './users';
-import { router as documentsRouter, } from './documents';
-import { PORT, CLIENT_ORIGIN, } from './config';
-import { router as authRouter, localStrategy, jwtStrategy, } from './auth';
+import { dbConnect } from './db-mongoose';
+import { router as usersRouter } from './users';
+import { router as documentsRouter } from './documents';
+import { PORT, CLIENT_ORIGIN } from './config';
+import { router as authRouter, localStrategy, jwtStrategy } from './auth';
 
 import SIO from './lib/sio';
 

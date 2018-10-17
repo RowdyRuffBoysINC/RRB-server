@@ -1,4 +1,4 @@
-import { router, } from './router';
-import { localStrategy, jwtStrategy, } from './strategies';
+import { router } from './router';
+import { localStrategy, jwtStrategy } from './strategies';
 
-module.exports = { router, localStrategy, jwtStrategy, };
+export { router, localStrategy, jwtStrategy };

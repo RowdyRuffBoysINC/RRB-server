@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { DATABASE_URL, } from './config';
+import { DATABASE_URL } from './config';
 
 mongoose.Promise = global.Promise;
 
