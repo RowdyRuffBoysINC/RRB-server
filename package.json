@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --ignore temp server.js --exec babel-node",
+    "start": "nodemon server.js --exec babel-node",
     "test": "nyc mocha --exit --require babel-polyfill --require babel-register ./test/*.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "heroku": "nodemon --ignore temp server.js --exec babel-node",
+    "heroku": "nodemon server.js --exec babel-node",
     "travis": "mocha  */*.test.js"
   },
   "license": "MIT",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
@@ -20,6 +22,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.4",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.4",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
